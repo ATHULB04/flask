@@ -5,11 +5,11 @@ cred = credentials.Certificate("serviceAccount.json")
 firebase_admin.initialize_app(cred) 
 db=firestore.client()
 
-def link(link,deadline):
-    id=1013
-    data={"id":link,"deadline":deadline}
-    db.collection("tasks").document(str(id)).set(data)
-    id+=1
+def link(r,deadline,id,):
+    idnum1=db.collection("idno").document("idno").get()
+    idnum=int(idnum1.to_dict()['idno'])
+    idnum+=1
+    data={"id":id,"deadline":deadline,"work":r}
+    db.collection("tasks").document(str(idnum)).set(data)
+    db.collection("idno").document("idno").set({"idno":str(idnum)})
     return "done"
-
-link("https://github.com/RivaanRanawat/flutter-amazon-clone-tutorial",1101)
