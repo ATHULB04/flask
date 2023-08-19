@@ -8,8 +8,8 @@ def index():
     sentence=request.json['work']
     deadline=request.json['deadline']
     id=request.json["id"]
-    r=response.question(sentence)
-    task.link(sentence,deadline,id)
+    tech_needed=response.question(sentence)
+    r=task.link(tech_needed,sentence,deadline,id)
     return {"result":r}
 
 if __name__=="__main__":
