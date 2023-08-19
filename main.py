@@ -1,13 +1,13 @@
-from flask import Flask, jsonify
-import os
+from flask import *
+import response
+app=Flask(__name__)
 
-app = Flask(__name__)
 
-
-@app.route('/')
+@app.route("/question",methods=['POST'])
 def index():
-    return jsonify({"Choo Choo": "Welcome to your Flask app 🚅"})
+    sentence=request.json['work']
+    r=response.question(sentence)
+    return {"result":r}
 
-
-if __name__ == '__main__':
-    app.run(debug=True, port=os.getenv("PORT", default=5000))
+if __name__=="__main__":
+    app.run(debug=True,port=6000)
