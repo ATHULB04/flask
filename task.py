@@ -5,7 +5,7 @@ cred = credentials.Certificate("serviceAccount.json")
 firebase_admin.initialize_app(cred) 
 db=firestore.client()
 
-def link(tech_needed,id,deadline,work):
+def link(tech_needed,sentence,deadline,id):
     employee_data = {}
     #emp_id,expertise,work_status,workload,experience,avail
     #emp1
@@ -129,5 +129,5 @@ def link(tech_needed,id,deadline,work):
 
     for value_list in data.values():
         for value in value_list:
-            db.collection("WORKERS").document(value).update({"STATUS":False,"TASKID":id,"DEADLINE":deadline,"Task":id})
+            db.collection("WORKERS").document(value).update({"STATUS":False,"TASKID":id,"DEADLINE":deadline,"Task":sentence})
     return "done"
