@@ -129,5 +129,5 @@ def link(tech_needed,id,deadline,work):
 
     for value_list in data.values():
         for value in value_list:
-            db.collection("WORKERS").document(value).update({"STATUS":False,"TASKID":work,"DEADLINE":deadline,"Task":id})
+            db.collection("WORKERS").document(value).update({"STATUS":False,"TASKID":id,"DEADLINE":deadline,"Task":id})
     return "done"
