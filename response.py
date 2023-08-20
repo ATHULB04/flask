@@ -20,7 +20,6 @@ def question(inputs):
     
     
     tech_stacks = [stack.strip() for stack in response.split(',') if stack.strip()]
-    tech_stacks.append("react")
     return tech_stacks
 
 
