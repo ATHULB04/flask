@@ -120,11 +120,9 @@ def link(tech_needed,id,deadline,work):
                 # print(employee_data[var])
                 
         # print(f"the best employee for {i}th task is {max_emp}")
-        v="emp"+max_emp 
-        if employee_data[v][5]!=False:
             
 
-            tech_employee_map_f[tech_needed[i]].append(max_emp)
+        tech_employee_map_f[tech_needed[i]].append(max_emp)
 
 
     data=tech_employee_map_f
