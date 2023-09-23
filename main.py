@@ -6,7 +6,8 @@ import firebase,pdf
 @app.route("/question",methods=['POST'])
 def index():
     name=request.json['name']
-    r=firebase.done(name)
+    print(name)
+    r=firebase.done(str(name))
     if r==True:
         word=pdf.pdfread(name)
     return {"result":word}
