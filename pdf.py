@@ -1,15 +1,29 @@
-import PyPDF2
-def pdfread(num):
-    def extract(pdf_file:str)->[str]:
-        with open(pdf_file,'rb') as pdf:
-            reader=PyPDF2.PdfReader(pdf,strict=False)
-            pdf_text=[]
+from flask import *
+app=Flask(__name__)
 
-            for page in reader.pages:
-                content =page.extract_text()
-                pdf_text.append(content)
+import pyrebase
 
-            return pdf_text
+config ={
+ "apiKey": "AIzaSyAvXSSHSTbm7vXR_0mySUwOPJWlvZ1E480",
+  "authDomain": "studiesy.firebaseapp.com",
+  "databaseURL": "https://studiesy-default-rtdb.firebaseio.com",
+  "projectId": "studiesy",
+  "storageBucket": "studiesy.appspot.com",
+  "messagingSenderId": "1070198266308",
+  "appId": "1:1070198266308:web:ee0546f9c31da90d256c91",
+  "measurementId": "G-SPW2YS1XML"
+}
+firebase = pyrebase.initialize_app(config)
 
-    pdffile=extract(f"{num}.pdf")
-    return pdffile
+
+
+@app.route("/",methods=['POST'])
+def index():
+    name=request.json['name']
+    localpath=""
+    cloudpath=f"test/{name}.pdf"
+    firebase.storage().child(cloudpath).download(localpath,filename=f"{name}.pdf")
+    return {"result":"done"}
+
+if __name__=="__main__":
+    app.run(debug=True,port=6000)
