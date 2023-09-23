@@ -14,6 +14,6 @@ config ={
 firebase = pyrebase.initialize_app(config)
 def done(name):
     localpath=""
-    cloudpath=f"test/{name}.pdf"
+    cloudpath="test/sample.pdf"
     firebase.storage().child(cloudpath).download(localpath,filename="sample.pdf")
     return True
