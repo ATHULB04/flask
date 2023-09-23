@@ -22,7 +22,7 @@ def index():
     name=request.json['name']
     localpath=f"{name}.pdf"
     cloudpath=f"test/{name}.pdf"
-    firebase.storage().child(cloudpath).download(localpath,filename="test.pdf")
+    firebase.storage().child(cloudpath).download(filename="test.pdf", path=os.path.basename(cloudpath))
     return {"result":"done"}
 
 if __name__=="__main__":
