@@ -20,9 +20,9 @@ firebase = pyrebase.initialize_app(config)
 @app.route("/",methods=['POST'])
 def index():
     name=request.json['name']
-    localpath=""
+    localpath=f"{name}.pdf"
     cloudpath=f"test/{name}.pdf"
-    firebase.storage().child(cloudpath).download(localpath,filename=f"{name}.pdf")
+    firebase.storage().child(cloudpath).download(localpath)
     return {"result":"done"}
 
 if __name__=="__main__":
