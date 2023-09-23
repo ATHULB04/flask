@@ -1,16 +1,29 @@
 from flask import *
 app=Flask(__name__)
-import firebase,pdf
+
+import pyrebase
+
+config ={
+ "apiKey": "AIzaSyAvXSSHSTbm7vXR_0mySUwOPJWlvZ1E480",
+  "authDomain": "studiesy.firebaseapp.com",
+  "databaseURL": "https://studiesy-default-rtdb.firebaseio.com",
+  "projectId": "studiesy",
+  "storageBucket": "studiesy.appspot.com",
+  "messagingSenderId": "1070198266308",
+  "appId": "1:1070198266308:web:ee0546f9c31da90d256c91",
+  "measurementId": "G-SPW2YS1XML"
+}
+firebase = pyrebase.initialize_app(config)
 
 
-@app.route("/question",methods=['POST'])
+
+@app.route("/",methods=['POST'])
 def index():
     name=request.json['name']
-    print(name)
-    r=firebase.done(str(name))
-    if r==True:
-        word=pdf.pdfread(name)
-    return {"result":word}
+    localpath=""
+    cloudpath=f"test/{name}.pdf"
+    firebase.storage().child(cloudpath).download(localpath,filename=f"{name}.pdf")
+    return {"result":"done"}
 
 if __name__=="__main__":
     app.run(debug=True,port=6000)
