@@ -3,7 +3,7 @@ app=Flask(__name__)
 import firebase,pdf
 
 
-@app.route("/",methods=['POST'])
+@app.route("/question",methods=['POST'])
 def index():
     name=request.json['name']
     r=firebase.done(name)
