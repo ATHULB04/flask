@@ -16,5 +16,5 @@ def done(name):
     localpath=""
     cloudpath=f"test/{name}.pdf"
     #foruploading
-    firebase.storage().child(cloudpath).download(localpath,filename="sample.pdf")
+    firebase.storage().child(cloudpath).download(localpath,filename=f"{name}.pdf")
     return True
