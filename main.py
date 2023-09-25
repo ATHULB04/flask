@@ -1,17 +1,12 @@
 from flask import *
-from fpdf import FPDF
+import pdfgen
 app=Flask(__name__)
 
-@app.route("/",methods=['POST'])
+@app.route("/voice",methods=['POST'])
 def index():
-    name=request.json['name']
-
-
-    f=FPDF()
-    f.add_page()
-
-    f.output(f"{name}.pdf")
-    return({"result":"done"})
+    user_question=request.json['sentence']
+    r=pdfgen.voice(user_question)
+    return({"result":r})
 
 if __name__=="__main__":
     app.run(debug=True,port=6000)
