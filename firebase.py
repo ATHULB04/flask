@@ -26,11 +26,22 @@ def question1(inputs):
     return chain.run(inputs)
 
 
-def details(subject,sentence):
+def details(subject):
+    list=db.collection("Notes").document(subject).get()
+    if list.exists:  
+        list=db.collection("Notes").document(subject).get()
+        data=list.to_dict()
+        sentence=data.get('transcribe', '').strip()
+        print(2)
+    else:
+        print("does not exist")
+
     data=question1(sentence)   #semd to gpt
-    print(2)
+    print(3)
     db.collection("Notes").document(subject).update({"summary":data})
     return "done"
+
+
 
 
 
