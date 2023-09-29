@@ -6,7 +6,7 @@ os.environ["OPENAI_API_KEY"] = os.environ.get('OPENAI_API_KEY')
 import firebase_admin
 from firebase_admin import credentials,firestore
 
-cred = credentials.Certificate("credentials.json")
+cred = credentials.Certificate("serviceAccount.json")
 firebase_admin.initialize_app(cred) 
 db=firestore.client()
 
