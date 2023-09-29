@@ -1,5 +1,5 @@
 from flask import *
-import pdfgen
+import pdfgen,firebase
 app=Flask(__name__)
 
 @app.route("/voice",methods=['POST'])
@@ -11,7 +11,7 @@ def index():
 @app.route('/summary', methods=['POST'])
 def get_latest_transcribe():
     subject=request.json['subject']
-    test.details(subject)
+    firebase.details(subject)
     return jsonify({'latest_transcribe_data':"done"})
 
 if __name__=="__main__":
