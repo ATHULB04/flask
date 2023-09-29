@@ -1,5 +1,4 @@
 import os
-import pdfgen
 from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
@@ -55,7 +54,6 @@ def details(subject):
         print("does not exist")
 
     data=promptmaker(sentence)   #semd to gpt
-    pdfgen.voice(sentence)
     print(3)
     db.collection("Notes").document(subject).update({"summary":data})
     return "done"
