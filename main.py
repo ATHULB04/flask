@@ -35,7 +35,7 @@ def index():
     r=pdfgen.voice(user_question)
     return({"result":r})
 
-@app.route('/summary', methods=['GET'])
+@app.route('/summary', methods=['POST'])
 def get_latest_transcribe():
     subject=request.json['subject']
     call(subject)
