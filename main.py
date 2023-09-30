@@ -5,8 +5,10 @@ app=Flask(__name__)
 @app.route("/voice",methods=['POST'])
 def index():
     user_question=request.json['sentence']
-    r=pdfgen.voice(user_question)
+    subject=request.json['subject']
+    r=pdfgen.voice(user_question,subject)
     return({"result":r})
+
 
 @app.route('/summary', methods=['POST'])
 def get_latest_transcribe():
