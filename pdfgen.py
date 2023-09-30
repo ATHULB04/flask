@@ -13,7 +13,7 @@ config ={
 }
 
 ## Initialize Firebase
-def voice(sentence):
+def voice(sentence,subject):
   firebase = pyrebase.initialize_app(config)
 
   # The text that you want to convert to audio
@@ -30,7 +30,7 @@ def voice(sentence):
       myobj.save(temp_audio.name)
 
   # Define the cloud storage path
-  cloudpath = "test/welcome.mp3"
+  cloudpath = f"test/{subject}.mp3"
 
   # Upload the temporary file to Firebase storage
   try:
