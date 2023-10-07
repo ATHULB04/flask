@@ -17,7 +17,8 @@ def call1(abs):
     sheet = wb.active 
     cloudpath = "test/test.xlsx"
     for i in range(len(abs)):
-        id=abs[i]+1
+        id=1
+        id+=abs[i]
         c = sheet[f'B{id}'] 
         c.value = "absent"
 
