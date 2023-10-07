@@ -19,6 +19,7 @@ def call1(abs):
     for i in range(len(abs)):
         id=1
         id+=abs[i]
+        print(id)
         c = sheet[f'B{id}'] 
         c.value = "absent"
 
