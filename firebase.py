@@ -1,4 +1,6 @@
 import os
+import ast
+import excel
 from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
 from langchain.chains import LLMChain
@@ -40,6 +42,65 @@ def askgpt(prompt):
     response_cache[prompt] = response
     return response
 
+def attendencepromptmaker(transcribed_txt):
+    instructions = """You are a teacher's assistant.You help teacher's take attendance.
+    You only return the absentees rollno from the text given.
+    You should only return the rollno of the absentees.
+    only integers should be returned.
+    expected output is a list of integers.
+        example:
+            [1,2,3,4,5,6,7,8,9,10]
+    """
+
+    data = str(transcribed_txt)
+    question = f"what is roll number's of absentees mentioned in the text :{transcribed_txt}"  # Corrected the variable name
+    prompt = instructions + data + question
+    return attendenceaskgpt(prompt)
+
+def attendenceaskgpt(prompt):
+    
+    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=250, stop=["\n"])   
+    output = chat_model([HumanMessage(content=prompt)])
+    response = output.content
+    real_list = ast.literal_eval(response)
+    return real_list
+
+def attendencecheckpromptmaker(transcribed_txt):
+    instructions = f"""
+    To determine if the text '{transcribed_txt}' contains information about absentees, please look for any mention of absentees or missing individuals. If the text mentions absentees in the format "Today's absentees are 1, 2, 8" or anything similar, return 1. Otherwise, return 0.
+    """
+    data = str(transcribed_txt)
+    question = "Does the text contain anything related to that day's attendance? Return 1 if yes, else return 0."
+
+    prompt = (data + question + instructions)
+    return attendencecheckaskgpt(prompt)
+
+def attendencecheckaskgpt(prompt):
+    
+    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=250, stop=["\n"])   
+    output = chat_model([HumanMessage(content=prompt)])
+    response = output.content
+    return int(response)
+
+def attendenceremoverpromptmaker(transcribed_txt):
+    instructions = f"""
+    Remove contents related to absentees from the text:'{transcribed_txt}'
+    Don't add or remove anything else.
+    """
+    data = str(transcribed_txt)
+    
+    
+
+    prompt = (data + instructions)
+    return attendenceremoveraskgpt(prompt)
+
+def attendenceremoveraskgpt(prompt):
+    
+    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=250, stop=["\n"])   
+    output = chat_model([HumanMessage(content=prompt)])
+    response = output.content
+    return response
+
 
 
 
@@ -52,10 +113,17 @@ def details(subject):
         print(sentence)
     else:
         print("does not exist")
-
-    data=promptmaker(sentence)   #semd to gpt
+    check= attendencecheckpromptmaker(sentence)
+    if (check==1):
+        absentees = attendencepromptmaker(sentence)
+        removed_txt = attendenceremoverpromptmaker(sentence)
+        summary = promptmaker(removed_txt)
+        print(absentees)
+        excel.call1(absentees)
+    else:
+        summary = promptmaker(sentence) #send to gpt
     print(3)
-    db.collection("Notes").document(subject).update({"summary":data})
+    db.collection("Notes").document(subject).update({"summary":summary})
     return "done"
 
 
