@@ -15,6 +15,8 @@ cred = credentials.Certificate("serviceAccount.json")
 firebase_admin.initialize_app(cred) 
 db=firestore.client()
 
+found=0
+
 response_cache = {}
 def promptmaker(transcribed_txt):
     instructions = """You are a chatbot who helps students learn. You make a summary based on the teacher's words.
@@ -67,7 +69,7 @@ def attendenceaskgpt(prompt):
 def attendencecheckpromptmaker(transcribed_txt):
   
     keywords = ["absent", "absentees", "absence", "absentee"]
-    found = 0
+    global found
     for keyword in keywords:
         if keyword in transcribed_txt.lower():
             found = 1
