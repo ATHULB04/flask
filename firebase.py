@@ -69,6 +69,7 @@ def attendencecheckpromptmaker(transcribed_txt):
     only return 1 and 0 do not return any string.
     You return 1 if {transcribed_txt} contain word 'absentees'.
     You return 1 if {transcribed_txt} contain word 'absence'.
+    You return 1 if {transcribed_txt} contain word 'absent'
     Don't return anything else other than integers
 
     """
