@@ -124,6 +124,7 @@ def details(subject):
         print(summary)
         print(absentees)
         excel.call1(absentees)
+        absent(absentees)
     else:
         summary = promptmaker(sentence)
         print(summary)
@@ -131,6 +132,21 @@ def details(subject):
     print(3)
     db.collection("Notes").document(subject).update({"summary":summary})
     return "done"
+
+def absent(id):
+    list=db.collection("students").document("ECB").get()
+    if list.exists:  
+        list=db.collection("students").document("ECB").get()
+        data=list.to_dict()
+    else:
+        print("does not exist")
+    for i in range(1,7):
+        data[str(i)]['absent'] = False
+    db.collection("students").document("ECB").update(data)
+    for i in range(len(id)):
+        data[str(id[i])]['absent'] = True
+    db.collection("students").document("ECB").update(data)
+
 
 
 
