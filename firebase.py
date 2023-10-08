@@ -65,29 +65,15 @@ def attendenceaskgpt(prompt):
     return real_list
 
 def attendencecheckpromptmaker(transcribed_txt):
-    instructions = f"""
-    only return 1 and 0 do not return any string.
-    only You return 1 if {transcribed_txt} contain word 'absentees'.
-    only You return 1 if {transcribed_txt} contain word 'absence'.
-    only You return 1 if {transcribed_txt} contain word 'absent'
-    Don't return anything else other than integers.
-    Never return anything other than 1 and 0.
-    No other words.
-    """
-    data = str(transcribed_txt)
-    
-    
+  
+    keywords = ["absent", "absentees", "absence", "absentee"]
+    found = 0
+    for keyword in keywords:
+        if keyword in transcribed_txt.lower():
+            found = 1
+    return found
 
-    prompt = (data + instructions)
-    return attendencecheckaskgpt(prompt)
 
-def attendencecheckaskgpt(prompt):
-    
-    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=500)   
-    output = chat_model([HumanMessage(content=prompt)])
-    response = output.content
-    print(response)
-    return int(response)
 
 def attendenceremoverpromptmaker(transcribed_txt):
     instructions = f"""
