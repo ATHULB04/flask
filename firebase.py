@@ -67,11 +67,12 @@ def attendenceaskgpt(prompt):
 def attendencecheckpromptmaker(transcribed_txt):
     instructions = f"""
     only return 1 and 0 do not return any string.
-    You return 1 if {transcribed_txt} contain word 'absentees'.
-    You return 1 if {transcribed_txt} contain word 'absence'.
-    You return 1 if {transcribed_txt} contain word 'absent'
-    Don't return anything else other than integers
-
+    only You return 1 if {transcribed_txt} contain word 'absentees'.
+    only You return 1 if {transcribed_txt} contain word 'absence'.
+    only You return 1 if {transcribed_txt} contain word 'absent'
+    Don't return anything else other than integers.
+    Never return anything other than 1 and 0.
+    No other words.
     """
     data = str(transcribed_txt)
     
