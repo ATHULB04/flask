@@ -41,7 +41,6 @@ def askgpt(prompt):
     response = output.content
     response_cache[prompt] = response
     return response
-
 def attendencepromptmaker(transcribed_txt):
     instructions = """You are a teacher's assistant.You help teacher's take attendance.
     You only return the absentees rollno from the text given.
@@ -67,17 +66,21 @@ def attendenceaskgpt(prompt):
 
 def attendencecheckpromptmaker(transcribed_txt):
     instructions = f"""
-    To determine if the text '{transcribed_txt}' contains information about absentees, please look for any mention of absentees or missing individuals. If the text mentions absentees in the format "Today's absentees are 1, 2, 8" or anything similar, return 1. Otherwise, return 0.
+    You return 1 if {transcribed_txt} contain word 'absentees'.
+    You return 1 if {transcribed_txt} contain word 'absence'.
+    Don't return anything else other than integers
+
     """
     data = str(transcribed_txt)
-    question = "Does the text contain anything related to that day's attendance? Return 1 if yes, else return 0."
+    
+    
 
-    prompt = (data + question + instructions)
+    prompt = (data + instructions)
     return attendencecheckaskgpt(prompt)
 
 def attendencecheckaskgpt(prompt):
     
-    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=250, stop=["\n"])   
+    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=250)   
     output = chat_model([HumanMessage(content=prompt)])
     response = output.content
     return int(response)
@@ -118,10 +121,13 @@ def details(subject):
         absentees = attendencepromptmaker(sentence)
         removed_txt = attendenceremoverpromptmaker(sentence)
         summary = promptmaker(removed_txt)
+        print(summary)
         print(absentees)
         excel.call1(absentees)
     else:
-        summary = promptmaker(sentence) #send to gpt
+        summary = promptmaker(sentence)
+        print(summary)
+        print("No data")
     print(3)
     db.collection("Notes").document(subject).update({"summary":summary})
     return "done"
