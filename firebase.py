@@ -83,7 +83,7 @@ def attendencecheckpromptmaker(transcribed_txt):
 
 def attendencecheckaskgpt(prompt):
     
-    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=250)   
+    chat_model = ChatOpenAI(temperature=0.1, model='gpt-3.5-turbo', openai_api_key=os.environ.get("OPENAI_API_KEY"), max_tokens=500)   
     output = chat_model([HumanMessage(content=prompt)])
     response = output.content
     print(response)
