@@ -15,7 +15,6 @@ cred = credentials.Certificate("serviceAccount.json")
 firebase_admin.initialize_app(cred) 
 db=firestore.client()
 
-found=0
 
 response_cache = {}
 def promptmaker(transcribed_txt):
@@ -69,11 +68,11 @@ def attendenceaskgpt(prompt):
 def attendencecheckpromptmaker(transcribed_txt):
   
     keywords = ["absent", "absentees", "absence", "absentee"]
-    global found
+    found=0
     for keyword in keywords:
         if keyword in transcribed_txt.lower():
             found = 1
-    return found
+        return found
 
 
 
@@ -138,7 +137,6 @@ def absent(id):
     for i in range(len(id)):
         data[str(id[i])]['absent'] = True
     db.collection("students").document("ECB").update(data)
-
 
 
 
