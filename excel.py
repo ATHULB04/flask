@@ -27,4 +27,4 @@ def call1(abs):
     firebase.storage().child(cloudpath).put("test.xlsx")
     return "done" 
 
-print(call1([3]))
+
