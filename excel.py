@@ -16,10 +16,12 @@ def call1(abs):
     firebase = pyrebase.initialize_app(config)
     sheet = wb.active 
     cloudpath = "test/test.xlsx"
+    for i in range (2,7):
+        c=sheet[f"B{i}"]
+        c.value="present"
     for i in range(len(abs)):
         id=1
         id+=abs[i]
-        print(id)
         c = sheet[f'B{id}'] 
         c.value = "absent"
 
